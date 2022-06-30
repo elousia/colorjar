@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { ChromePicker } from 'react-color';
 import { saveAs } from 'file-saver';
 
-import { VscCopy } from 'react-icons/vsc';
 import { HiOutlineBookmark } from 'react-icons/hi';
 import { MdFileDownload } from 'react-icons/md';
 
@@ -10,14 +9,7 @@ import { createTintsAndShades } from '../utils/color-utils';
 
 export default function Generate() {
 	const [initialColor, setColor] = useState('#3799A0');
-	const [extractedColors, setExtractedColors] = useState([]);
 	const generated = createTintsAndShades(initialColor);
-	// console.log(JSON.stringify(Object.assign({}, generated?.calculatedShades)));
-
-	// generated?.calculatedTints?.map((it, i) => {
-	// 	it = '#' + it;
-	// 	console.log(it);
-	// });
 
 	const allTints = JSON.stringify(
 		Object.assign({}, generated?.calculatedTints)
