@@ -105,7 +105,7 @@ export function createTintsAndShades(values: any) {
 		let calculatedTints;
 
 		for (var i = 0; i < parsedColorsArray.length; i++) {
-			// iterate through each inputted color value
+			// iterate through each input color value
 
 			// calculate an array of shades from the inputted color, then make a table row
 			// from the shades, and a second table row for the hex values of the shades
@@ -115,8 +115,8 @@ export function createTintsAndShades(values: any) {
 			calculatedTints = calculateTints(parsedColorsArray[i]);
 		}
 		return {
-			calculateShades,
-			calculateTints,
+			calculatedShades,
+			calculatedTints,
 		};
 	}
 	return null;

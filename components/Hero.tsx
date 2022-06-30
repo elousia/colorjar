@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import Link from 'next/link';
 import React, { useState } from 'react';
 // import Modal from '../utils/Modal';
 
@@ -15,12 +16,12 @@ function HeroHome() {
 					{/* Section header */}
 					<div className='text-center pb-12 md:pb-16'>
 						<h1
-							className='text-5xl md:text-6xl font-extrabold leading-tighter tracking-tighter mb-4'
+							className='text-5xl text-white md:text-6xl font-extrabold leading-tighter tracking-tighter mb-4'
 							data-aos='zoom-y-out'
 						>
-							Make your website{' '}
-							<span className='bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-teal-400'>
-								wonderful
+							Create awesome{' '}
+							<span className='bg-clip-text text-transparent bg-gradient-to-r from-[#e96443] to-[#ca228e]'>
+								color palettes
 							</span>
 						</h1>
 						<div className='max-w-3xl mx-auto'>
@@ -32,6 +33,27 @@ function HeroHome() {
 								Our landing page template works on all devices, so you only have
 								to set it up once, and get beautiful results forever.
 							</p>
+
+							<div>
+								{/* <button
+									type='button'
+									className='w-full max-w-sm transition duration-100 ease-in-out text-black bg-white hover:bg-white focus:ring-4 focus:outline-none focus:ring-white font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-white mr-2 mx-auto'
+								>
+									Start generating palettes
+								</button> */}
+								<Link href='/generate'>
+									<button
+										type='button'
+										className='text-gray-900 bg-gray-100 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 mr-2 mb-2 transition-all duration-100 ease-linear'
+									>
+										Start generating palettes
+										<span role='emoji' className='text-lg ml-2'>
+											🎉
+										</span>
+									</button>
+								</Link>
+							</div>
+							<p className='text-white font-bold my-4'>or</p>
 							<div
 								className='max-w-xs mx-auto sm:max-w-none sm:flex sm:justify-center'
 								data-aos='zoom-y-out'
