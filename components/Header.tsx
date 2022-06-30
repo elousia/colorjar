@@ -35,7 +35,7 @@ function Header() {
 									<Link href='/profile'>
 										<li>
 											<img
-												className='w-10 h-10 p-1 rounded-full ring-2 ring-gray-600 cursor-pointer'
+												className='w-10 h-10 p-1 rounded-full ring-2 ring-gray-600 hover:ring-gray-200 duration-100 transition-all cursor-pointer'
 												src={session.user?.image as string}
 												alt='Bordered avatar'
 											/>
@@ -44,7 +44,7 @@ function Header() {
 									<li>
 										<button
 											onClick={() => signOut()}
-											className='font-medium hover:text-gray-900 px-5 mx-4 py-2 flex items-center transition duration-150 ease-in-out text-gray-600 mb-0 bg-transparent border-2 rounded-md'
+											className='font-medium border-gray-600 hover:border-gray-200 hover:text-gray-200 duration-100 transition-all px-5 mx-4 py-2 flex items-center ease-in-out text-gray-600 mb-0 bg-transparent border-2 rounded-md'
 										>
 											Logout
 										</button>
@@ -56,7 +56,7 @@ function Header() {
 									href='https://github.com/'
 									target='_blank'
 									rel='noreferrer'
-									className='font-medium hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out text-gray-600 mb-0'
+									className='font-medium hover:text-gray-200 duration-100 transition-allpx-5 py-3 flex items-center transition ease-in-out text-gray-600 mb-0'
 								>
 									GitHub
 								</a>

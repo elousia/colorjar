@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 import { ChromePicker } from 'react-color';
 import { saveAs } from 'file-saver';
 
@@ -7,6 +8,7 @@ import { MdFileDownload, MdSave } from 'react-icons/md';
 import { CustomBox } from '../components/ColorBoxes';
 
 export default function CreateCustomPalette() {
+	const router = useRouter();
 	const [initialColor, setColor] = useState('#3799A0');
 	const [colors, setColors] = useState<string[]>([]);
 
@@ -36,6 +38,7 @@ export default function CreateCustomPalette() {
 				}),
 			}).then((res) => {
 				if (res.ok) {
+					router.push('/palettes/custom');
 					alert('Added successfully');
 				} else {
 					alert('Error adding');

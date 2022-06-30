@@ -5,6 +5,7 @@
 // @ts-nocheck
 
 import React, { useState, useRef } from 'react';
+import { useRouter } from 'next/router';
 import { prominent, average } from 'color.js';
 import { saveAs } from 'file-saver';
 
@@ -14,7 +15,7 @@ import { MdFileDownload, MdSave } from 'react-icons/md';
 import { ExtractedBox } from '../components/ColorBoxes';
 
 export default function Extract() {
-	const [extractedColors, setExtractedColors] = useState<any>();
+	const router = useRouter();
 
 	const fileRef = useRef();
 	const [image, setImage] = useState<null | string | ArrayBuffer>();
@@ -43,18 +44,8 @@ export default function Extract() {
 		}
 	};
 
-	console.log(colors);
-
 	const fileTemplate = `
     const palette = {
-		type: "extracted",
-        average: "${averageColor}",
-        extracted: ${JSON.stringify(colors)}
-    }
-    `;
-
-	const saveTemplate = `
-    {
 		type: "extracted",
         average: "${averageColor}",
         extracted: ${JSON.stringify(colors)}
@@ -72,6 +63,7 @@ export default function Extract() {
 				}),
 			}).then((res) => {
 				if (res.ok) {
+					router.push('/palettes/extracted');
 					alert('Added successfully');
 				} else {
 					alert('Error adding');

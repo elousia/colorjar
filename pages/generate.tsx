@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 import { ChromePicker } from 'react-color';
 import { saveAs } from 'file-saver';
 
@@ -9,6 +10,7 @@ import { createTintsAndShades } from '../utils/color-utils';
 import { GeneratedBox } from '../components/ColorBoxes';
 
 export default function Generate() {
+	const router = useRouter();
 	const [initialColor, setColor] = useState('#3799A0');
 	const generated = createTintsAndShades(initialColor);
 
@@ -46,12 +48,13 @@ export default function Generate() {
 				method: 'POST',
 				body: JSON.stringify({
 					type: 'generated',
-					origin: origin,
+					origin: initialColor,
 					shades: newShades,
 					tints: newTints,
 				}),
 			}).then((res) => {
 				if (res.ok) {
+					router.push('/palettes/generated');
 					alert('Added successfully');
 				} else {
 					alert('Error adding');
@@ -91,7 +94,7 @@ export default function Generate() {
 				<div className='flex flex-col mt-10'>
 					<span className='font-semibold text-gray-600'>Shades</span>
 					<div className='flex items-center justify-start flex-wrap'>
-						{generated?.calculatedShades?.map((shade, i) => {
+						{newShades.map((shade, i) => {
 							return <GeneratedBox key={shade + i} value={shade} />;
 						})}
 					</div>
@@ -99,7 +102,7 @@ export default function Generate() {
 				<div className='flex flex-col mt-10'>
 					<span className='font-semibold text-gray-600'>Tints</span>
 					<div className='flex items-center justify-start flex-wrap'>
-						{generated?.calculatedTints?.map((tint, i) => {
+						{newTints.map((tint, i) => {
 							return <GeneratedBox key={tint + i} value={tint} />;
 						})}
 					</div>

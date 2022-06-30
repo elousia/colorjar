@@ -5,7 +5,7 @@ export function GeneratedBox({ value }: { value: string }) {
 		<div
 			className={`h-[4.5rem] w-[4.5rem] cursor-pointer`}
 			style={{
-				backgroundColor: `#${value}`,
+				backgroundColor: `${value}`,
 			}}
 		></div>
 	);
