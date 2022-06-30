@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+/* eslint-disable @next/next/no-img-element */
+import React, { useState, useRef } from 'react';
 import { ChromePicker } from 'react-color';
 import { ColorExtractor } from 'react-color-extractor';
+import { prominent, average } from 'color.js';
 import { saveAs } from 'file-saver';
 
 import { VscCopy } from 'react-icons/vsc';
@@ -9,80 +11,98 @@ import { MdFileDownload } from 'react-icons/md';
 
 import { createTintsAndShades } from '../utils/color-utils';
 
-export default function Generate() {
+export default function Extract() {
 	const [initialColor, setColor] = useState('#3799A0');
-	const [extractedColors, setExtractedColors] = useState([]);
+	const [extractedColors, setExtractedColors] = useState<any>();
 	const generated = createTintsAndShades(initialColor);
-	// console.log(JSON.stringify(Object.assign({}, generated?.calculatedShades)));
 
-	// generated?.calculatedTints?.map((it, i) => {
-	// 	it = '#' + it;
-	// 	console.log(it);
-	// });
+	const fileRef = useRef();
+	const [image, setImage] = useState<null | string | ArrayBuffer>();
+	const [colors, setColors] = useState<string[]>();
+	const [averageColor, setAverageColor] = useState<null | boolean>(null);
 
-	const allTints = JSON.stringify(
-		Object.assign({}, generated?.calculatedTints)
-	);
-	const allShades = JSON.stringify(
-		Object.assign({}, generated?.calculatedShades)
-	);
+	const changeHandle = () => {
+		const file: File = fileRef?.current?.files[0];
+		if (file) {
+			const reader = new FileReader();
+			reader.addEventListener('load', function () {
+				setImage(this.result);
+				prominent(this.result, {
+					format: 'hex',
+					amount: 6,
+				}).then((colors) => setColors(colors));
+				average(this.result).then((color) =>
+					setAverageColor(`rgba(${color.join(',')}, .6)`)
+				);
+			});
+			reader.readAsDataURL(file);
+		} else {
+			setImage(null);
+			setAverageColor(false);
+			setColors([]);
+		}
+	};
+
+	const allExtractedColors = JSON.stringify(Object.assign({}, colors));
 
 	const fileTemplate = `
     {
-        "origin": "${initialColor}",
-        "shades": ${allShades},
-        "tints": ${allTints}
+        "average": "${averageColor}",
+        "extracted": ${allExtractedColors}
     }
     `;
 
 	const handleSave = () => {
-		const file = new File([fileTemplate], `${Date.now()}-colorjar.json`, {
-			type: 'application/json;charset=utf-8',
-		});
+		const file = new File(
+			[fileTemplate],
+			`${Date.now()}-colorjar-extracted.json`,
+			{
+				type: 'application/json;charset=utf-8',
+			}
+		);
 		saveAs(file);
 	};
 
-	const handleColorChangeComplete = (color: any) => {
-		// always use only the HEX value of the color
-		// react-color also allows you to use the rgba or hsla values too
-		setColor(color.hex);
+	const handleGetColors = (colors: any) => {
+		console.log(extractedColors);
+		setExtractedColors([...extractedColors, ...colors]);
 	};
 
 	return (
 		<section className='mx-auto my-20 max-w-8xl px-9 items-center flex flex-col justify-between'>
 			<div className='mx-auto'>
-				<ChromePicker
-					color={initialColor}
-					onChange={handleColorChangeComplete}
+				<input
+					type='file'
+					accept='image/*'
+					onChange={changeHandle}
+					ref={fileRef}
 				/>
+				{image && (
+					<img
+						src={image as string}
+						style={{
+							width: 700,
+							height: 500,
+							maxWidth: '100%',
+							objectFit: 'contain',
+						}}
+						alt='Extracted'
+					/>
+				)}
 			</div>
 			<div className='flex flex-col max-w-5xl mx-auto'>
 				<div className='flex flex-col mt-10'>
-					<span className='font-semibold text-gray-600'>Shades</span>
+					<span className='font-semibold text-gray-600'>
+						{image ? 'Extracted Colors' : 'Please choose an image'}
+					</span>
 					<div className='flex items-center justify-start flex-wrap'>
-						{generated?.calculatedShades?.map((shade, i) => {
+						{colors?.map((shade, i) => {
 							return (
 								<div
 									key={shade + i}
 									className={`h-[4.5rem] w-[4.5rem] cursor-pointer`}
 									style={{
-										backgroundColor: `#${shade}`,
-									}}
-								></div>
-							);
-						})}
-					</div>
-				</div>
-				<div className='flex flex-col mt-10'>
-					<span className='font-semibold text-gray-600'>Tints</span>
-					<div className='flex items-center justify-start flex-wrap'>
-						{generated?.calculatedTints?.map((tint, i) => {
-							return (
-								<div
-									key={tint + i}
-									className={`h-[4.5rem] w-[4.5rem] cursor-pointer`}
-									style={{
-										backgroundColor: `#${tint}`,
+										backgroundColor: `${shade}`,
 									}}
 								></div>
 							);

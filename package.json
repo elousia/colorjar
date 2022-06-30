@@ -12,11 +12,13 @@
     "@tailwindcss/forms": "^0.5.2",
     "color": "^4.2.3",
     "color-scheme": "^1.0.1",
+    "color.js": "^1.2.0",
     "file-saver": "^2.0.5",
     "next": "12.2.0",
     "nice-color-palettes": "^3.0.0",
     "react": "18.2.0",
     "react-color": "^2.19.3",
+    "react-color-extractor": "^1.1.2",
     "react-dom": "18.2.0",
     "react-icons": "^4.4.0",
     "values.js": "^2.1.1"
