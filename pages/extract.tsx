@@ -11,6 +11,7 @@ import { saveAs } from 'file-saver';
 import { VscCopy } from 'react-icons/vsc';
 import { HiOutlineBookmark } from 'react-icons/hi';
 import { MdFileDownload, MdSave } from 'react-icons/md';
+import { ExtractedBox } from '../components/ColorBoxes';
 
 export default function Extract() {
 	const [extractedColors, setExtractedColors] = useState<any>();
@@ -42,31 +43,41 @@ export default function Extract() {
 		}
 	};
 
-	const allExtractedColors = JSON.stringify(Object.assign({}, colors));
+	console.log(colors);
 
 	const fileTemplate = `
-    {
-		"type": "extracted",
-        "average": "${averageColor}",
-        "extracted": ${allExtractedColors}
+    const palette = {
+		type: "extracted",
+        average: "${averageColor}",
+        extracted: ${JSON.stringify(colors)}
     }
     `;
 
 	const handleSave = async () => {
-		await fetch('/api/palettes/extracted', {
-			method: 'POST',
-			body: JSON.stringify({
-				extractedData: fileTemplate,
-			}),
-		});
+		try {
+			await fetch('/api/palettes/extracted', {
+				method: 'POST',
+				body: JSON.stringify({
+					extractedData: fileTemplate,
+				}),
+			}).then((res) => {
+				if (res.ok) {
+					alert('Added successfully');
+				} else {
+					alert('Error adding');
+				}
+			});
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	const handleDownload = () => {
 		const file = new File(
 			[fileTemplate],
-			`${Date.now()}-colorjar-extracted.json`,
+			`${Date.now()}-colorjar-extracted.js`,
 			{
-				type: 'application/json;charset=utf-8',
+				type: 'application/javascript;charset=utf-8',
 			}
 		);
 		saveAs(file);
@@ -102,15 +113,7 @@ export default function Extract() {
 					</span>
 					<div className='flex items-center justify-start flex-wrap'>
 						{colors?.map((shade, i) => {
-							return (
-								<div
-									key={shade + i}
-									className={`h-[4.5rem] w-[4.5rem] cursor-pointer`}
-									style={{
-										backgroundColor: `${shade}`,
-									}}
-								></div>
-							);
+							return <ExtractedBox key={shade + i} value={shade} />;
 						})}
 					</div>
 				</div>

@@ -4,36 +4,45 @@ import { saveAs } from 'file-saver';
 
 import { MdFileDownload, MdSave } from 'react-icons/md';
 
-import { createTintsAndShades } from '../utils/color-utils';
+import { CustomBox } from '../components/ColorBoxes';
 
 export default function CreateCustomPalette() {
 	const [initialColor, setColor] = useState('#3799A0');
 	const [colors, setColors] = useState<string[]>([]);
-	const generated = createTintsAndShades(initialColor);
-
-	const allColors = JSON.stringify(Object.assign({}, colors));
 
 	const fileTemplate = `
-    {
-        "type": "custom",
-        "colors": ${allColors}
+    const palette = {
+		type: "custom",
+        colors: ${JSON.stringify(colors)}
     }
     `;
 
+	console.log(fileTemplate);
+
 	const handleDownload = () => {
-		const file = new File([fileTemplate], `${Date.now()}-colorjar.json`, {
-			type: 'application/json;charset=utf-8',
+		const file = new File([fileTemplate], `${Date.now()}-colorjar.js`, {
+			type: 'application/javascript;charset=utf-8',
 		});
 		saveAs(file);
 	};
 
 	const handleSave = async () => {
-		await fetch('/api/palettes/custom', {
-			method: 'POST',
-			body: JSON.stringify({
-				customData: fileTemplate,
-			}),
-		});
+		try {
+			await fetch('/api/palettes/custom', {
+				method: 'POST',
+				body: JSON.stringify({
+					customData: fileTemplate,
+				}),
+			}).then((res) => {
+				if (res.ok) {
+					alert('Added successfully');
+				} else {
+					alert('Error adding');
+				}
+			});
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	const handleAddColor = (
@@ -84,15 +93,7 @@ export default function CreateCustomPalette() {
 					<span className='font-semibold text-gray-600'>Colors</span>
 					<div className='flex items-center justify-start flex-wrap'>
 						{colors.map((color, i) => {
-							return (
-								<div
-									key={color + i}
-									className={`h-[4.5rem] w-[4.5rem] cursor-pointer`}
-									style={{
-										backgroundColor: `${color}`,
-									}}
-								></div>
-							);
+							return <CustomBox key={color + i} value={color} />;
 						})}
 					</div>
 				</div>

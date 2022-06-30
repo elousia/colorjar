@@ -6,39 +6,64 @@ import { HiOutlineBookmark } from 'react-icons/hi';
 import { MdFileDownload, MdSave } from 'react-icons/md';
 
 import { createTintsAndShades } from '../utils/color-utils';
+import { GeneratedBox } from '../components/ColorBoxes';
 
 export default function Generate() {
 	const [initialColor, setColor] = useState('#3799A0');
 	const generated = createTintsAndShades(initialColor);
 
-	const allTints = JSON.stringify(
-		Object.assign({}, generated?.calculatedTints)
-	);
-	const allShades = JSON.stringify(
-		Object.assign({}, generated?.calculatedShades)
-	);
+	// console.log(generated?.calculatedShades);
+
+	generated?.calculatedShades?.forEach((shade) => {
+		shade = '#' + shade;
+	});
+
+	let newTints: string[] = [];
+	let newShades: string[] = [];
+
+	generated?.calculatedTints?.map((tint) => {
+		tint = '#' + tint;
+		newTints.push(tint);
+	});
+
+	generated?.calculatedShades?.map((shade) => {
+		shade = '#' + shade;
+		newShades.push(shade);
+	});
+
+	console.log(newTints);
 
 	const fileTemplate = `
-    {
-		"type": "generated",
-        "origin": "${initialColor}",
-        "shades": ${allShades},
-        "tints": ${allTints}
+    const palette = {
+		type: "generated",
+        origin: "${initialColor}",
+        shades: ${JSON.stringify(newShades)},
+        tints: ${JSON.stringify(newTints)}
     }
     `;
 
 	const handleSave = async () => {
-		await fetch('/api/palettes/generated', {
-			method: 'POST',
-			body: JSON.stringify({
-				generatedData: fileTemplate,
-			}),
-		});
+		try {
+			await fetch('/api/palettes/generated', {
+				method: 'POST',
+				body: JSON.stringify({
+					generatedData: fileTemplate,
+				}),
+			}).then((res) => {
+				if (res.ok) {
+					alert('Added successfully');
+				} else {
+					alert('Error adding');
+				}
+			});
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	const handleDownload = () => {
-		const file = new File([fileTemplate], `${Date.now()}-colorjar.json`, {
-			type: 'application/json;charset=utf-8',
+		const file = new File([fileTemplate], `${Date.now()}-colorjar.js`, {
+			type: 'application/javascript;charset=utf-8',
 		});
 		saveAs(file);
 	};
@@ -62,15 +87,7 @@ export default function Generate() {
 					<span className='font-semibold text-gray-600'>Shades</span>
 					<div className='flex items-center justify-start flex-wrap'>
 						{generated?.calculatedShades?.map((shade, i) => {
-							return (
-								<div
-									key={shade + i}
-									className={`h-[4.5rem] w-[4.5rem] cursor-pointer`}
-									style={{
-										backgroundColor: `#${shade}`,
-									}}
-								></div>
-							);
+							return <GeneratedBox key={shade + i} value={shade} />;
 						})}
 					</div>
 				</div>
@@ -78,15 +95,7 @@ export default function Generate() {
 					<span className='font-semibold text-gray-600'>Tints</span>
 					<div className='flex items-center justify-start flex-wrap'>
 						{generated?.calculatedTints?.map((tint, i) => {
-							return (
-								<div
-									key={tint + i}
-									className={`h-[4.5rem] w-[4.5rem] cursor-pointer`}
-									style={{
-										backgroundColor: `#${tint}`,
-									}}
-								></div>
-							);
+							return <GeneratedBox key={tint + i} value={tint} />;
 						})}
 					</div>
 				</div>
