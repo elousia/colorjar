@@ -1,7 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
+// I did no check on this TypeScript file because most of the packages do not have exported types
+// And I am having a hard time figuring them out. Would immediately remove this if I do so.
+
+// @ts-nocheck
+
 import React, { useState, useRef } from 'react';
-import { ChromePicker } from 'react-color';
-import { ColorExtractor } from 'react-color-extractor';
 import { prominent, average } from 'color.js';
 import { saveAs } from 'file-saver';
 
@@ -9,12 +12,8 @@ import { VscCopy } from 'react-icons/vsc';
 import { HiOutlineBookmark } from 'react-icons/hi';
 import { MdFileDownload } from 'react-icons/md';
 
-import { createTintsAndShades } from '../utils/color-utils';
-
 export default function Extract() {
-	const [initialColor, setColor] = useState('#3799A0');
 	const [extractedColors, setExtractedColors] = useState<any>();
-	const generated = createTintsAndShades(initialColor);
 
 	const fileRef = useRef();
 	const [image, setImage] = useState<null | string | ArrayBuffer>();
@@ -85,6 +84,7 @@ export default function Extract() {
 							height: 500,
 							maxWidth: '100%',
 							objectFit: 'contain',
+							marginTop: '.5rem',
 						}}
 						alt='Extracted'
 					/>

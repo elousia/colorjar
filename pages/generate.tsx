@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { ChromePicker } from 'react-color';
-import { ColorExtractor } from 'react-color-extractor';
 import { saveAs } from 'file-saver';
 
 import { VscCopy } from 'react-icons/vsc';
