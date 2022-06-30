@@ -5,7 +5,7 @@ export default function Logo() {
 	return (
 		<div className='flex-shrink-0 mr-4'>
 			{/* Logo */}
-			<Link href='/' className='block' aria-label='Cruip'>
+			<Link href='/' className='block' aria-label='Colorjar'>
 				<svg
 					className='w-8 h-8'
 					viewBox='0 0 32 32'
