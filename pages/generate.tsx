@@ -3,7 +3,7 @@ import { ChromePicker } from 'react-color';
 import { saveAs } from 'file-saver';
 
 import { HiOutlineBookmark } from 'react-icons/hi';
-import { MdFileDownload } from 'react-icons/md';
+import { MdFileDownload, MdSave } from 'react-icons/md';
 
 import { createTintsAndShades } from '../utils/color-utils';
 
@@ -20,13 +20,23 @@ export default function Generate() {
 
 	const fileTemplate = `
     {
+		"type": "generated",
         "origin": "${initialColor}",
         "shades": ${allShades},
         "tints": ${allTints}
     }
     `;
 
-	const handleSave = () => {
+	const handleSave = async () => {
+		await fetch('/api/palettes/generated', {
+			method: 'POST',
+			body: JSON.stringify({
+				generatedData: fileTemplate,
+			}),
+		});
+	};
+
+	const handleDownload = () => {
 		const file = new File([fileTemplate], `${Date.now()}-colorjar.json`, {
 			type: 'application/json;charset=utf-8',
 		});
@@ -84,17 +94,18 @@ export default function Generate() {
 			<div className='flex items-center justify-between mx-auto flex-wrap my-16'>
 				<div className='mx-2'>
 					<button
+						onClick={() => handleSave()}
 						type='button'
 						className='w-full text-gray-200 bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-100 rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-blue-500 mr-2 mb-2 transition-all duration-100 ease-linear font-semibold'
 					>
-						Add to collection
-						<HiOutlineBookmark className='text-xl font-bold ml-2' />
+						Save palette
+						<MdSave className='text-xl font-bold ml-2' />
 					</button>
 				</div>
 				<div className='mx-2'>
 					<button
 						type='button'
-						onClick={() => handleSave()}
+						onClick={() => handleDownload()}
 						className='w-full text-gray-200 bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-100 rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-blue-500 mr-2 mb-2 transition-all duration-100 ease-linear font-semibold'
 					>
 						Download palette

@@ -6,7 +6,7 @@ import { MdFileDownload, MdSave } from 'react-icons/md';
 
 import { createTintsAndShades } from '../utils/color-utils';
 
-export default function CreatePalette() {
+export default function CreateCustomPalette() {
 	const [initialColor, setColor] = useState('#3799A0');
 	const [colors, setColors] = useState<string[]>([]);
 	const generated = createTintsAndShades(initialColor);
@@ -15,15 +15,25 @@ export default function CreatePalette() {
 
 	const fileTemplate = `
     {
+        "type": "custom",
         "colors": ${allColors}
     }
     `;
 
-	const handleSave = () => {
+	const handleDownload = () => {
 		const file = new File([fileTemplate], `${Date.now()}-colorjar.json`, {
 			type: 'application/json;charset=utf-8',
 		});
 		saveAs(file);
+	};
+
+	const handleSave = async () => {
+		await fetch('/api/palettes/custom', {
+			method: 'POST',
+			body: JSON.stringify({
+				customData: fileTemplate,
+			}),
+		});
 	};
 
 	const handleAddColor = (
@@ -91,6 +101,7 @@ export default function CreatePalette() {
 				<div className='mx-2'>
 					<button
 						type='button'
+						onClick={() => handleSave()}
 						className='w-full text-gray-200 bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-100 rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-blue-500 mr-2 mb-2 transition-all duration-100 ease-linear font-semibold'
 					>
 						Save palette
@@ -100,7 +111,7 @@ export default function CreatePalette() {
 				<div className='mx-2'>
 					<button
 						type='button'
-						onClick={() => handleSave()}
+						onClick={() => handleDownload()}
 						className='w-full text-gray-200 bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-100 rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-blue-500 mr-2 mb-2 transition-all duration-100 ease-linear font-semibold'
 					>
 						Download palette
