@@ -20,7 +20,7 @@ export default function CreateCustomPalette() {
 	console.log(fileTemplate);
 
 	const handleDownload = () => {
-		const file = new File([fileTemplate], `${Date.now()}-colorjar.js`, {
+		const file = new File([fileTemplate], `${Date.now()}-colorjar-custom.js`, {
 			type: 'application/javascript;charset=utf-8',
 		});
 		saveAs(file);
@@ -31,7 +31,8 @@ export default function CreateCustomPalette() {
 			await fetch('/api/palettes/custom', {
 				method: 'POST',
 				body: JSON.stringify({
-					customData: fileTemplate,
+					type: 'custom',
+					colors: colors,
 				}),
 			}).then((res) => {
 				if (res.ok) {

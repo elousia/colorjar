@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgres"
   url      = env("DATABASE_URL")
 }
 
@@ -60,7 +60,10 @@ model Generated {
   updatedAt     DateTime @updatedAt
   authorId      String?
   author        User?    @relation(fields: [authorId], references: [id])
-  data          Json?
+  type          String
+  origin        String
+  shades        String[]
+  tints         String[]
 }
 
 model Extracted {
@@ -69,7 +72,9 @@ model Extracted {
   updatedAt     DateTime @updatedAt
   authorId      String?
   author        User?    @relation(fields: [authorId], references: [id])
-  data          Json?
+  type          String?
+  average       String?
+  colors        String[]
 }
 
 model Custom {
@@ -78,7 +83,8 @@ model Custom {
   updatedAt     DateTime @updatedAt
   authorId      String?
   author        User?    @relation(fields: [authorId], references: [id])
-  data          Json?
+  type          String
+  colors        String[]
 }
 
 model Bookmark {

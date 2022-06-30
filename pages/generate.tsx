@@ -31,8 +31,6 @@ export default function Generate() {
 		newShades.push(shade);
 	});
 
-	console.log(newTints);
-
 	const fileTemplate = `
     const palette = {
 		type: "generated",
@@ -47,7 +45,10 @@ export default function Generate() {
 			await fetch('/api/palettes/generated', {
 				method: 'POST',
 				body: JSON.stringify({
-					generatedData: fileTemplate,
+					type: 'generated',
+					origin: origin,
+					shades: newShades,
+					tints: newTints,
 				}),
 			}).then((res) => {
 				if (res.ok) {
@@ -62,9 +63,13 @@ export default function Generate() {
 	};
 
 	const handleDownload = () => {
-		const file = new File([fileTemplate], `${Date.now()}-colorjar.js`, {
-			type: 'application/javascript;charset=utf-8',
-		});
+		const file = new File(
+			[fileTemplate],
+			`${Date.now()}-colorjar-generated.js`,
+			{
+				type: 'application/javascript;charset=utf-8',
+			}
+		);
 		saveAs(file);
 	};
 

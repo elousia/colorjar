@@ -17,14 +17,13 @@ export default async function handler(
 		res.status(401).json({ success: false, message: 'Not authenticated' });
 	} else {
 		const parsedData = JSON.parse(req.body);
-		const { customData } = parsedData;
+		const { type, colors } = parsedData;
 
 		await prisma.custom
 			.create({
 				data: {
-					data: {
-						palette: customData,
-					},
+					type: type,
+					colors: colors,
 					author: {
 						connectOrCreate: {
 							where: {

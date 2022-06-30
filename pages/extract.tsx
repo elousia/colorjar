@@ -53,12 +53,22 @@ export default function Extract() {
     }
     `;
 
+	const saveTemplate = `
+    {
+		type: "extracted",
+        average: "${averageColor}",
+        extracted: ${JSON.stringify(colors)}
+    }
+    `;
+
 	const handleSave = async () => {
 		try {
 			await fetch('/api/palettes/extracted', {
 				method: 'POST',
 				body: JSON.stringify({
-					extractedData: fileTemplate,
+					type: 'extracted',
+					average: averageColor,
+					extracted: colors,
 				}),
 			}).then((res) => {
 				if (res.ok) {
