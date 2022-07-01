@@ -182,7 +182,7 @@ function HeroHome() {
 							</p>
 
 							<div>
-								<Link href='/generate'>
+								<Link href='/extract'>
 									<button
 										type='button'
 										className='text-gray-900 bg-gray-100 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 mr-2 mb-2 transition-all duration-100 ease-linear font-semibold'
@@ -193,7 +193,7 @@ function HeroHome() {
 										</span>
 									</button>
 								</Link>
-								<Link href='/generate'>
+								<Link href='/palettes/extracted'>
 									<button
 										type='button'
 										className='text-gray-900 bg-gray-100 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 mr-2 mb-2 transition-all duration-100 ease-linear font-semibold'
@@ -232,7 +232,7 @@ function HeroHome() {
 							</p>
 
 							<div>
-								<Link href='/generate'>
+								<Link href='/custom'>
 									<button
 										type='button'
 										className='text-gray-900 bg-gray-100 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 mr-2 mb-2 transition-all duration-100 ease-linear font-semibold'
@@ -243,7 +243,7 @@ function HeroHome() {
 										</span>
 									</button>
 								</Link>
-								<Link href='/generate'>
+								<Link href='/palettes/custom'>
 									<button
 										type='button'
 										className='text-gray-900 bg-gray-100 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 mr-2 mb-2 transition-all duration-100 ease-linear font-semibold'

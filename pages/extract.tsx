@@ -120,28 +120,30 @@ export default function Extract() {
 					</div>
 				</div>
 			</div>
-			<div className='flex items-center justify-between mx-auto flex-wrap my-16'>
-				<div className='mx-2'>
-					<button
-						type='button'
-						onClick={() => handleSave()}
-						className='w-full text-gray-200 bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-100 rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-blue-500 mr-2 mb-2 transition-all duration-100 ease-linear font-semibold'
-					>
-						Save palette
-						<MdSave className='text-xl font-bold ml-2' />
-					</button>
+			{image ? (
+				<div className='flex items-center justify-between mx-auto flex-wrap my-16'>
+					<div className='mx-2'>
+						<button
+							type='button'
+							onClick={() => handleSave()}
+							className='w-full text-gray-200 bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-100 rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-blue-500 mr-2 mb-2 transition-all duration-100 ease-linear font-semibold'
+						>
+							Save palette
+							<MdSave className='text-xl font-bold ml-2' />
+						</button>
+					</div>
+					<div className='mx-2'>
+						<button
+							type='button'
+							onClick={() => handleDownload()}
+							className='w-full text-gray-200 bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-100 rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-blue-500 mr-2 mb-2 transition-all duration-100 ease-linear font-semibold'
+						>
+							Download palette
+							<MdFileDownload className='text-xl font-bold ml-2' />
+						</button>
+					</div>
 				</div>
-				<div className='mx-2'>
-					<button
-						type='button'
-						onClick={() => handleDownload()}
-						className='w-full text-gray-200 bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-100 rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-blue-500 mr-2 mb-2 transition-all duration-100 ease-linear font-semibold'
-					>
-						Download palette
-						<MdFileDownload className='text-xl font-bold ml-2' />
-					</button>
-				</div>
-			</div>
+			) : null}
 		</section>
 	);
 }
