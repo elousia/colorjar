@@ -53,7 +53,7 @@ function Header() {
 							)}
 							<li>
 								<a
-									href='https://github.com/'
+									href='https://github.com/french-gizmo/colorjar'
 									target='_blank'
 									rel='noreferrer'
 									className='font-medium hover:text-gray-200 duration-100 transition-allpx-5 py-3 flex items-center transition ease-in-out text-gray-600 mb-0'
